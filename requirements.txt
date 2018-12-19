@@ -13,4 +13,3 @@ sqlalchemy-utils==0.33.3
 sqlalchemy-json==0.2.1
 python-dotenv==0.9.1
 grpcio==1.15.0
-chaostoolkit-lib>=1.0.0rc1

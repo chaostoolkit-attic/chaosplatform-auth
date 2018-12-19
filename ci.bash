@@ -3,7 +3,7 @@ set -eo pipefail
 
 function lint () {
     echo "Checking the code syntax"
-    pycodestyle --first chaoslib
+    pycodestyle --first chaosplt_auth
 }
 
 function build () {
