@@ -16,3 +16,4 @@ sqlalchemy-utils==0.33.3
 sqlalchemy-json==0.2.1
 python-dotenv==0.9.1
 grpcio==1.17.1
+chaosplatform-grpc==0.1.0
