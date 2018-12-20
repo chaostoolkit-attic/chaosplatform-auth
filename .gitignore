@@ -74,3 +74,5 @@ test-results.xml
 .vscode/
 errors.log
 access.log
+
+!tests/fixtures/.env
