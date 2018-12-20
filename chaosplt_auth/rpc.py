@@ -5,14 +5,13 @@ from uuid import UUID
 from flask.json import JSONEncoder
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended.tokens import encode_refresh_token, encode_access_token
-from jwt.algorithms import requires_cryptography
 
 from chaosplt_grpc.auth.message import AccessToken
 from chaosplt_grpc.auth.server import AuthService as GRPCAuthService
 
 from .storage import AuthStorage
 
-__all__ = ["AuthService"]
+__all__ = ["AuthRPC"]
 
 
 class NoAppJWTManager(JWTManager):

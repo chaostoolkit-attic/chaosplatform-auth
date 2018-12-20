@@ -7,9 +7,8 @@ from typing import Any, Dict
 
 import cherrypy
 from dotenv import load_dotenv
-from flask import Flask
 
-__all__ = ["configure_app", "load_settings"]
+__all__ = ["load_settings"]
 logger = logging.getLogger("chaosplatform")
 
 

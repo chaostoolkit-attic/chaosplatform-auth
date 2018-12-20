@@ -1,13 +1,11 @@
 from typing import Any, Dict, NoReturn
 
-import attr
 from chaosplt_relational_storage import initialize_storage as init_storage, \
-    configure_storage, release_storage, RelationalStorage
+    configure_storage, release_storage
 import pkg_resources
 
 from .concrete import AccessTokenService, OAuthTokenService
-from .interface import BaseAuthStorage, BaseAccessTokenService, \
-    BaseOAuthTokenService
+from .interface import BaseAuthStorage
 
 __all__ = ["initialize_storage", "shutdown_storage", "AuthStorage"]
 

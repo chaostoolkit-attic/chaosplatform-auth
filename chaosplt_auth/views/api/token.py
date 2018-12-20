@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-from typing import Any, Callable
 from uuid import UUID
 
-from flask import abort, Blueprint, Flask, jsonify, request
+from flask import abort, Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_login import current_user, login_required
 from marshmallow import ValidationError
 
 from chaosplt_auth.schemas import new_token_schema, token_schema
 
-__all__ = ["register_api"]
+__all__ = ["api"]
 
 api = Blueprint("token", __name__)
 
@@ -72,5 +71,5 @@ def get(token_id: UUID):
 @api.route('<uuid:token_id>', methods=['DELETE'])
 @login_required
 def delete(token_id: UUID):
-    user = request.storage.access_token.delete(current_user.id, token_id)
+    request.storage.access_token.delete(current_user.id, token_id)
     return "", 204

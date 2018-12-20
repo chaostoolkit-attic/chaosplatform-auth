@@ -3,13 +3,11 @@ import logging
 from typing import Any, Dict, NoReturn, Union
 from uuid import UUID
 
-from flask import Blueprint, Flask, request
+from flask import Blueprint
 from flask_caching import Cache
 from flask_dance.consumer import oauth_authorized, oauth_error
 from flask_dance.consumer.backend import BaseBackend
-from flask_dance.utils import first
-from flask_login import login_required, login_user, logout_user
-from sqlalchemy.orm.exc import NoResultFound
+from flask_login import login_user
 
 from chaosplt_auth.model import OAuthToken, User
 from chaosplt_auth.storage import AuthStorage

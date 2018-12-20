@@ -4,11 +4,8 @@ from logging import StreamHandler
 import os
 from typing import Any, Dict
 
-import cherrypy
 from flask import Blueprint, Flask, after_this_request, request, Response
 from flask_caching import Cache
-from requestlogger import ApacheFormatter, WSGILogger
-from werkzeug.contrib.fixers import ProxyFix
 
 from chaosplt_auth.auth import setup_jwt, setup_login
 from chaosplt_auth.schemas import setup_schemas

@@ -1,7 +1,5 @@
-from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-import attr
 from chaosplt_grpc import remote_channel
 from chaosplt_grpc.registration.client import create_registration, \
     get_by_id

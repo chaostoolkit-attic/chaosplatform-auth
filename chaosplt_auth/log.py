@@ -1,14 +1,12 @@
-from datetime import datetime, timezone
-import json
 import logging
 import logging.config
 from logging import StreamHandler
 import pkgutil
-import time
 from typing import Any, Dict
 
 from flask import Flask
 from requestlogger import ApacheFormatter, WSGILogger
+import simplejson as json
 
 __all__ = ["configure_logger", "http_requests_logger"]
 

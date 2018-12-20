@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
-import logging
 from typing import Any, Dict, Union
 from uuid import UUID
 
 from flask import Flask, request, Request
 from flask_login import LoginManager
 from flask_jwt_extended import JWTManager, verify_jwt_in_request, \
-    get_jwt_identity, current_user as api_user
-from flask_jwt_extended.exceptions import InvalidHeaderError, \
-    NoAuthorizationError
+    current_user as api_user
 
 __all__ = ["setup_jwt", "setup_login"]
 
@@ -23,7 +20,7 @@ def setup_jwt(app: Flask) -> JWTManager:
         }
 
     @jwt.user_loader_callback_loader
-    def user_loader(identity: Union[UUID, str]) -> 'User':
+    def user_loader(identity: Union[UUID, str]):
         return request.services.account.registration.get(identity)
 
     return jwt
@@ -37,7 +34,7 @@ def setup_login(app: Flask, from_session: bool = False,
 
     if from_session:
         @login_manager.user_loader
-        def load_user_from_session(user_id: Union[UUID, str]) -> 'User':
+        def load_user_from_session(user_id: Union[UUID, str]):
             return request.services.account.registration.get(user_id)
 
     if from_jwt:

@@ -2,14 +2,10 @@
 import logging
 from logging import StreamHandler
 import os
-from typing import Any, Dict, Union
+from typing import Any, Dict
 
-import cherrypy
 from flask import Blueprint, Flask, request, after_this_request, Response
 from flask_caching import Cache
-from requestlogger import ApacheFormatter, WSGILogger
-from werkzeug.contrib.fixers import ProxyFix
-from werkzeug.routing import BuildError
 
 from chaosplt_auth.auth import setup_login
 from chaosplt_auth.service import Services

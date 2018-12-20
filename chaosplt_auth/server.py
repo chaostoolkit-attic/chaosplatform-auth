@@ -1,4 +1,3 @@
-from concurrent import futures
 import logging
 from logging import StreamHandler
 from typing import Any, Dict, Tuple
@@ -9,7 +8,6 @@ from chaosplt_grpc.auth.server import register_auth_service
 import cherrypy
 from flask import Flask
 from flask_caching import Cache
-import grpc
 from grpc import Server
 
 from .cache import setup_cache
@@ -62,7 +60,7 @@ def initialize_all(config: Dict[str, Any], web_app: Flask = None,
         log_handler=access_log_handler)
 
     if not api_app:
-        api_app = create_app(config)
+        api_app = create_api(config)
         api_cache = setup_cache(api_app)
         wsgiapp = http_requests_logger(api_app, access_log_handler)
         cherrypy.tree.graft(wsgiapp, "/api/v1")

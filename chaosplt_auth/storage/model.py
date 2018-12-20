@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timezone
-import os
-from typing import Any, Dict, NoReturn, Union
+from typing import Dict, NoReturn, Union
 import uuid
 from uuid import UUID
 
-from chaosplt_relational_storage.db import Base
+from chaos_relational_storage.db import Base
 from flask_dance.consumer.backend.sqla import OAuthConsumerMixin
-from sqlalchemy import Boolean, Column, DateTime, Integer, String, \
+from sqlalchemy import Boolean, Column, DateTime, String, \
     UniqueConstraint, func
-from sqlalchemy_json import NestedMutable
+from sqlalchemy.orm.session import Session
 from sqlalchemy_utils import UUIDType
-from sqlalchemy_utils import JSONType as JSONB
 
 __all__ = ["AccessToken", "OAuthToken"]
 
@@ -36,7 +33,7 @@ class AccessToken(Base):  # type: ignore
 
     @staticmethod
     def save(name: str, user_id: Union[UUID, str], access_token: str,
-             refresh_token: str, session: 'Session') -> 'AccessToken':
+             refresh_token: str, session: Session) -> 'AccessToken':
         token = AccessToken(
             name=name,
             user_id=user_id,
@@ -48,7 +45,7 @@ class AccessToken(Base):  # type: ignore
 
     @staticmethod
     def delete(user_id: Union[UUID, str],
-               token_id: Union[UUID, str], session: 'Session') -> NoReturn:
+               token_id: Union[UUID, str], session: Session) -> NoReturn:
         token = session.query(AccessToken).\
             filter_by(user_id=user_id).\
             filter_by(id=token_id).first()
@@ -58,13 +55,13 @@ class AccessToken(Base):  # type: ignore
 
     @staticmethod
     def load_by_user(user_id: Union[UUID, str],
-                     session: 'Session') -> Dict[str, 'AccessToken']:
+                     session: Session) -> Dict[str, 'AccessToken']:
         return session.query(AccessToken).\
             filter_by(user_id=user_id).all()
 
     @staticmethod
     def load(user_id: Union[UUID, str], token_id: Union[UUID, str],
-             session: 'Session') -> 'AccessToken':
+             session: Session) -> 'AccessToken':
         return session.query(AccessToken).\
             filter_by(user_id=user_id).\
             filter_by(id=token_id).\
@@ -84,40 +81,40 @@ class OAuthToken(Base, OAuthConsumerMixin):
 
     @staticmethod
     def load(user_id: Union[UUID, str], oauth_id: Union[UUID, str],
-             session: 'Session') -> 'OAuthToken':
+             session: Session) -> 'OAuthToken':
         return session.query(OAuthToken).\
             filter_by(user_id=user_id).\
             filter_by(id=oauth_id).first()
 
     @staticmethod
     def load_by_user(user_id: Union[UUID, str],
-                     session: 'Session') -> 'OAuthToken':
+                     session: Session) -> 'OAuthToken':
         return session.query(OAuthToken).filter_by(
             user_id=user_id).first()
 
     @staticmethod
     def load_by_provider(provider: str, provider_id: str,
-                         session: 'Session') -> 'OAuthToken':
+                         session: Session) -> 'OAuthToken':
         return session.query(OAuthToken).\
             filter_by(provider=provider).\
             filter_by(provider_id=provider_id).first()
 
     @staticmethod
     def delete(user_id: Union[UUID, str], oauth_id: Union[UUID, str],
-               session: 'Session') -> NoReturn:
+               session: Session) -> NoReturn:
         return session.query(OAuthToken).\
             filter_by(user_id=user_id).\
             filter_by(id=oauth_id).delete()
 
     @staticmethod
     def delete_by_user(user_id: Union[UUID, str],
-                       session: 'Session') -> NoReturn:
+                       session: Session) -> NoReturn:
         return session.query(OAuthToken).filter_by(
             user_id=user_id).delete()
 
     @staticmethod
     def save(user_id: Union[UUID, str], provider: str, provider_id: str,
-             token: str, session: 'Session') -> 'OAuth':
+             token: str, session: Session) -> 'OAuthToken':
         oauth = OAuthToken(
             user_id=user_id,
             token=token,
@@ -130,7 +127,7 @@ class OAuthToken(Base, OAuthConsumerMixin):
 
     @staticmethod
     def update_by_user(user_id: Union[UUID, str], token: str,
-                       session: 'Session') -> NoReturn:
+                       session: Session) -> NoReturn:
         oauth = session.query(OAuthToken).filter_by(
             user_id=user_id).first()
         if oauth:

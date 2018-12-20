@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-from flask import abort, Blueprint, current_app, Flask, jsonify, redirect, \
-    request
-from flask_dance.contrib.github import make_github_blueprint, github
+from flask import Blueprint
+from flask_dance.contrib.github import make_github_blueprint
 from flask_login import login_required
-from sqlalchemy.orm.exc import NoResultFound
 
 __all__ = ["view", "github_view"]
 

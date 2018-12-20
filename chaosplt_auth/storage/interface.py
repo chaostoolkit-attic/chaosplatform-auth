@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, NoReturn, Union
+from typing import Dict, NoReturn, Union
 from uuid import UUID
 
 import attr
