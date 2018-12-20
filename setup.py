@@ -35,6 +35,9 @@ test_require = []
 with io.open('requirements-dev.txt') as f:
     test_require = [l.strip() for l in f if not l.startswith('#')]
 
+install_require = []
+with io.open('requirements.txt') as f:
+    install_require = [l.strip() for l in f if not l.startswith('#')]
 
 setup(
     name='chaosplatform-auth',
@@ -48,10 +51,17 @@ setup(
     url='https://github.com/chaostoolkit/chaosplatform-auth',
     packages=find_packages(),
     include_package_data=True,
+    install_requires=install_require,
     tests_require=test_require,
     setup_requires=pytest_runner,
     zip_safe=False,
     python_requires='>=3.6.*',
+    project_urls={
+        'CI: Travis': 'https://travis-ci.org/chaostoolkit/chaosplatform-auth',
+        'Docs: RTD': 'https://docs.chaosplatform.org',
+        'GitHub: issues': 'https://chaostoolkit/chaostoolkit/chaosplatform-auth/issues',
+        'GitHub: repo': 'https://chaostoolkit/chaostoolkit/chaosplatform-auth'
+    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
