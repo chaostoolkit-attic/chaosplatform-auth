@@ -47,7 +47,10 @@ def load_settings(env_path: str = None) -> Dict[str, Any]:
 
     config = {
         'GRPC_LISTEN_ADDR': os.getenv("GRPC_LISTEN_ADDR"),
-        'DATABASE_URI': os.getenv("DATABASE_URI"),
+        'db': {
+            'uri': os.getenv("DATABASE_URI"),
+            'debug': debug,
+        },
         'debug': debug,
         'grpc': {
             'account': {

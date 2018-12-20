@@ -23,7 +23,7 @@ from chaosplt_auth.views.web.backend import OAuthBackend
 from chaosplt_auth.views.web import create_app, cleanup_app, serve_app, \
     register_views
 from chaosplt_auth.model import User
-from chaos_relational_storage.db import RelationalStorage
+from chaosplt_relational_storage.db import RelationalStorage
 from chaosplt_auth.service import Services, initialize_services
 from chaosplt_auth.settings import load_settings
 from chaosplt_auth.storage import initialize_storage, AuthStorage

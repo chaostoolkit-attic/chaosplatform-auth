@@ -13,10 +13,10 @@ def test_loading_external_storage_implementation():
                 os.path.dirname(__file__), "fixtures"))
         entry_point = EntryPoint.parse(
             'auth = fake_storage:MyAuthStorage', dist=distribution)
-        distribution._ep_map = {'chaoshub.storage': {'auth': entry_point}}
+        distribution._ep_map = {'chaosplatform.storage': {'auth': entry_point}}
         working_set.add(distribution)
 
-        storage = initialize_storage(config={})
+        storage = initialize_storage(config={"db":{"uri": "sqlite:///"}})
         assert storage.__class__.__name__ == "MyAuthStorage"
         assert storage.some_flag == True
 

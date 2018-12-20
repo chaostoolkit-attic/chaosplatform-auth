@@ -1,7 +1,7 @@
 import uuid
 
 from chaosplt_auth.storage.model import AccessToken, OAuthToken
-from chaos_relational_storage.db import orm_session
+from chaosplt_relational_storage.db import orm_session
 
 
 def test_save_access_token():
