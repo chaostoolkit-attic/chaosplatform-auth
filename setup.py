@@ -2,6 +2,7 @@
 # -*- encoding: utf-8 -*-
 import io
 import re
+import sys
 from os.path import abspath, dirname, join, normpath
 
 from setuptools import find_packages, setup
@@ -28,6 +29,13 @@ def read(*names, **kwargs) -> str:
     ).read()
 
 
+needs_pytest = set(['pytest', 'test']).intersection(sys.argv)
+pytest_runner = ['pytest_runner'] if needs_pytest else []
+test_require = []
+with io.open('requirements-dev.txt') as f:
+    test_require = [l.strip() for l in f if not l.startswith('#')]
+
+
 setup(
     name='chaosplatform-auth',
     version=get_version_from_package(),
@@ -40,6 +48,8 @@ setup(
     url='https://github.com/chaostoolkit/chaosplatform-auth',
     packages=find_packages(),
     include_package_data=True,
+    tests_require=test_require,
+    setup_requires=pytest_runner,
     zip_safe=False,
     python_requires='>=3.6.*',
     classifiers=[

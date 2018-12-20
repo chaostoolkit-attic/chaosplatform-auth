@@ -3,7 +3,7 @@ from typing import Dict, NoReturn, Union
 import uuid
 from uuid import UUID
 
-from chaos_relational_storage.db import Base
+from chaosplt_relational_storage.db import Base
 from flask_dance.consumer.backend.sqla import OAuthConsumerMixin
 from sqlalchemy import Boolean, Column, DateTime, String, \
     UniqueConstraint, func
