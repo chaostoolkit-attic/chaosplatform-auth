@@ -1,5 +1,6 @@
 Click==7.0
 flask==1.0.2
+blinker==1.4
 flask-jwt-extended==3.14.0
 cryptography==2.3.1
 itsdangerous==0.24
