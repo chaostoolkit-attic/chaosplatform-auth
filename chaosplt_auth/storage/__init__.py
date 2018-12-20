@@ -1,7 +1,7 @@
 from typing import Any, Dict, NoReturn
 
 import attr
-from chaos_relational_storage import initialize_storage as init_storage, \
+from chaosplt_relational_storage import initialize_storage as init_storage, \
     configure_storage, release_storage, RelationalStorage
 import pkg_resources
 

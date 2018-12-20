@@ -2,8 +2,8 @@ from typing import Any, Dict, NoReturn, Union
 from uuid import UUID
 
 from chaosplt_auth.model import AccessToken, OAuthToken
-from chaos_relational_storage import RelationalStorage
-from chaos_relational_storage.db import orm_session
+from chaosplt_relational_storage import RelationalStorage
+from chaosplt_relational_storage.db import orm_session
 
 from .interface import BaseAccessTokenService, BaseOAuthTokenService
 from .model import AccessToken as AccessTokenModel, \
