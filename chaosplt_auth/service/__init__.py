@@ -14,9 +14,17 @@ class Services:
 
 
 def initialize_services(services: Services, config: Dict[str, Any]):
+    """
+    Initialize all services that the authentication service needs to work:
+
+    * account service
+    """
     if not services.account:
         services.account = AccountService(config)
 
 
 def shutdown_services(services: Services):
+    """
+    Clear out the services used by the authentication service.
+    """
     pass

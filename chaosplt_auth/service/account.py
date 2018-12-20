@@ -28,9 +28,13 @@ class UserService:
 
 class RegistrationService:
     def __init__(self, addr: str):
+        # gRPC address of the remote service
         self.addr = addr
 
     def create(self, username: str, name: str, email: str) -> User:
+        """
+        Register a new user.
+        """
         with remote_channel(self.addr) as channel:
             registration = create_registration(channel, username, name, email)
             return User(
@@ -40,6 +44,9 @@ class RegistrationService:
                 is_anonymous=registration.is_anonymous)
 
     def get(self, registration_id: str) -> User:
+        """
+        Retrieve an user by its registration identifier.
+        """
         with remote_channel(self.addr) as channel:
             registration = get_by_id(channel, registration_id)
             return User(

@@ -17,6 +17,11 @@ api = Blueprint("token", __name__)
 @api.route('access', methods=['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'PATCH'])
 @login_required
 def validate():
+    """
+    Endpoint used to validate the credentials from a user. If this function
+    is ever called, then it means the credentials are indeed valid otherwise
+    an error was triggered before.
+    """
     return "", 200
 
 

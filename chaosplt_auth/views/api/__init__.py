@@ -9,7 +9,6 @@ from flask import Blueprint, Flask, after_this_request, request, Response
 from flask_caching import Cache
 from requestlogger import ApacheFormatter, WSGILogger
 from werkzeug.contrib.fixers import ProxyFix
-from werkzeug.routing import BuildError
 
 from chaosplt_auth.auth import setup_jwt, setup_login
 from chaosplt_auth.schemas import setup_schemas
@@ -22,10 +21,13 @@ __all__ = ["create_api", "cleanup_api", "server_api"]
 
 
 def create_api(config: Dict[str, Any]) -> Flask:
+    """
+    Create the API application for the authentication API endpoint.
+    """
     app = Flask(__name__)
 
     app.url_map.strict_slashes = False
-    app.debug = True if os.getenv('CHAOSHUB_DEBUG') else False
+    app.debug = True if os.getenv('CHAOSPLATFORM_DEBUG') else False
 
     logger = logging.getLogger('flask.app')
     logger.propagate = False
@@ -58,6 +60,9 @@ def serve_api(app: Flask, cache: Cache, services: Services,
               storage: AuthStorage, config: Dict[str, Any],
               mount_point: str = '/api/v1/auth',
               log_handler: StreamHandler = None):
+    """
+    Serve the authentication API application over HTTP.
+    """
     register_api(app, cache, services, storage, mount_point)
 
 
@@ -66,6 +71,9 @@ def serve_api(app: Flask, cache: Cache, services: Services,
 ###############################################################################
 def register_api(app: Flask, cache: Cache, services: Services,
                  storage: AuthStorage, mount_point: str):
+    """
+    Register the functions mapping to the API URLs.
+    """
     patch_request(token_api, services, storage)
     app.register_blueprint(
         token_api, url_prefix="{}/tokens".format(mount_point))

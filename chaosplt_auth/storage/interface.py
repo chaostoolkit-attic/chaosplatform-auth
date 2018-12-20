@@ -6,7 +6,8 @@ import attr
 
 from chaosplt_auth.model import AccessToken, OAuthToken
 
-__all__ = ["BaseAuthStorage"]
+__all__ = ["BaseAuthStorage", "BaseAccessTokenService",
+           "BaseOAuthTokenService"]
 
 
 class BaseAccessTokenService(ABC):
@@ -68,18 +69,31 @@ class BaseOAuthTokenService(ABC):
 
     @abstractmethod
     def delete_by_user(self, user_id: Union[UUID, str]) -> NoReturn:
+        """
+        Delete the OAuth token of the given user.
+        """
         raise NotImplementedError()
 
     @abstractmethod
     def set_for_user(self, user_id: Union[UUID, str], token: str) -> NoReturn:
+        """
+        Set the OAuth token of the given user.
+        """
         raise NotImplementedError()
 
     @abstractmethod
     def get_by_user(self, user_id: Union[UUID, str]) -> OAuthToken:
+        """
+        Get the OAuth token of the given user.
+        """
         raise NotImplementedError()
 
     @abstractmethod
     def get_by_provider(self, provider: str, provider_id: str) -> OAuthToken:
+        """
+        Get the OAuth token for the given provider/provider-id pair which
+        should be uniq.
+        """
         raise NotImplementedError()
 
 
@@ -87,3 +101,6 @@ class BaseOAuthTokenService(ABC):
 class BaseAuthStorage:
     access_token: BaseAccessTokenService = attr.ib()
     oauth_token: BaseOAuthTokenService = attr.ib()
+
+    def release(self) -> NoReturn:
+        raise NotImplementedError()

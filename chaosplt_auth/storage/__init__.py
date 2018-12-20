@@ -22,11 +22,21 @@ class AuthStorage(BaseAuthStorage):
         BaseAuthStorage.__init__(self, access_token, oauth_token)
 
     def release(self) -> NoReturn:
+        """
+        Release the storage resources.
+        """
         release_storage(self.driver)
 
 
-def initialize_storage(config: Dict[str, Any]) -> AuthStorage:
-    for plugin in pkg_resources.iter_entry_points('chaoshub.storage'):
+def initialize_storage(config: Dict[str, Any]) -> BaseAuthStorage:
+    """
+    Initialize the underlying authentication storage.
+
+    If an installed package exposes the `chaosplatform.storage` class
+    entrypoint for the `"auth"` group, it will be loaded. Otherwise, it'll be
+    the default `AuthStorage` from this module.
+    """
+    for plugin in pkg_resources.iter_entry_points('chaosplatform.storage'):
         if plugin.name == "auth":
             service_class = plugin.load()
             return service_class(config)
@@ -34,5 +44,8 @@ def initialize_storage(config: Dict[str, Any]) -> AuthStorage:
     return AuthStorage(config)
 
 
-def shutdown_storage(storage: AuthStorage) -> NoReturn:
+def shutdown_storage(storage: BaseAuthStorage) -> NoReturn:
+    """
+    Release the storage resources by calling its `release` method.
+    """
     storage.release()
