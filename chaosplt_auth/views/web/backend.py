@@ -13,8 +13,7 @@ from chaosplt_auth.model import OAuthToken, User
 from chaosplt_auth.storage import AuthStorage
 
 __all__ = ["setup_oauth_provider"]
-
-logger = logging.getLogger("chaoshub")
+logger = logging.getLogger("chaosplatform")
 
 
 class OAuthBackend(BaseBackend):

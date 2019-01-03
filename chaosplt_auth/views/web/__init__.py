@@ -21,7 +21,7 @@ def create_app(config: Dict[str, Any]) -> Flask:
     app = Flask(__name__)
 
     app.url_map.strict_slashes = False
-    app.debug = True if os.getenv('CHAOSHUB_DEBUG') else False
+    app.debug = True if os.getenv('CHAOSPLATFORM_DEBUG') else False
 
     logger = logging.getLogger('flask.app')
     logger.propagate = False

@@ -38,6 +38,7 @@ def initialize_all(config: Dict[str, Any], web_app: Flask = None,
     * Initialize the storage
     """
     access_log_handler = access_log_handler or logging.StreamHandler()
+    logger.info("Initializing authentication service resources")
 
     embedded = True
     if not services:
@@ -80,11 +81,12 @@ def initialize_all(config: Dict[str, Any], web_app: Flask = None,
     return (web_app, api_app, services, grpc_server, storage)
 
 
-def release_all(services: Services, web_app: Flask, api_app: Flask,
+def release_all(web_app: Flask, api_app: Flask, services: Services,
                 grpc_server: Server, storage: AuthStorage):
     """
     Release all resources
     """
+    logger.info("Releasing authentication service resources")
     if grpc_server:
         logger.info("gRPC server stopping")
         stop_grpc_server(grpc_server)
@@ -103,10 +105,9 @@ def run_forever(config: Dict[str, Any]):
     when the application starts.
     """
     def run_stuff(config: Dict[str, Any]):
-        web, api, services, grpc_server, storage = initialize_all(config)
+        resources = initialize_all(config)
         cherrypy.engine.subscribe(
-            'stop', lambda: release_all(
-                services, web, api, grpc_server, storage),
+            'stop', lambda: release_all(*resources),
             priority=20)
 
     cherrypy.engine.subscribe(
