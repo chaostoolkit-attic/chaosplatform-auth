@@ -1,6 +1,6 @@
 from typing import Any, Dict, NoReturn
 
-from chaosplt_relational_storage import initialize_storage as init_storage, \
+from chaosplt_relational_storage import get_storage, \
     configure_storage, release_storage
 import pkg_resources
 
@@ -12,7 +12,7 @@ __all__ = ["initialize_storage", "shutdown_storage", "AuthStorage"]
 
 class AuthStorage(BaseAuthStorage):
     def __init__(self, config: Dict[str, Any]):
-        self.driver = init_storage(config)
+        self.driver = get_storage(config)
         configure_storage(self.driver)
 
         access_token = AccessTokenService(self.driver)
