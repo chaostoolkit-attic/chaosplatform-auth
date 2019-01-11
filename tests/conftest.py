@@ -1,3 +1,5 @@
+import logging
+from logging import StreamHandler
 import os
 import random
 import string
@@ -7,11 +9,9 @@ import uuid
 from uuid import UUID
 
 import cherrypy
-from flask import  Flask, request
+from flask import Flask, request
 from flask_caching import Cache
 from flask_login import login_required, login_user, logout_user
-import logging
-from logging import StreamHandler
 
 import pytest
 

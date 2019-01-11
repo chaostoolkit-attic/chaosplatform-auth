@@ -1,10 +1,11 @@
 import uuid
 
+from chaosplt_auth.storage import AuthStorage
 from chaosplt_auth.storage.model import AccessToken, OAuthToken
 from chaosplt_relational_storage.db import orm_session
 
 
-def test_save_access_token():
+def test_save_access_token(storage: AuthStorage):
     with orm_session() as session:
         token = AccessToken.save(
             name=uuid.uuid4().hex,
@@ -17,7 +18,7 @@ def test_save_access_token():
         assert uuid.UUID(hex=token.id.hex) == token.id
 
 
-def test_get_access_token():
+def test_get_access_token(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
@@ -34,7 +35,7 @@ def test_get_access_token():
         assert token == fetched_token
 
 
-def test_get_access_token_for_user():
+def test_get_access_token_for_user(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
@@ -54,7 +55,7 @@ def test_get_access_token_for_user():
         assert fetched_tokens == []
 
 
-def test_delete_access_token():
+def test_delete_access_token(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
@@ -75,7 +76,7 @@ def test_delete_access_token():
         assert fetched_token == None
 
 
-def test_save_oauth2_token():
+def test_save_oauth2_token(storage: AuthStorage):
     with orm_session() as session:
         token = OAuthToken.save(
             user_id=uuid.uuid4(),
@@ -88,7 +89,7 @@ def test_save_oauth2_token():
         assert token.token == {"token": "a-token"}
 
 
-def test_get_oauth2_token():
+def test_get_oauth2_token(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
@@ -105,7 +106,7 @@ def test_get_oauth2_token():
         assert token == fetched_token
 
 
-def test_cannot_get_oauth2_token_for_different_user():
+def test_cannot_get_oauth2_token_for_different_user(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
@@ -125,7 +126,7 @@ def test_cannot_get_oauth2_token_for_different_user():
         assert fetched_token == None
 
 
-def test_get_oauth2_token_for_user():
+def test_get_oauth2_token_for_user(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
@@ -145,7 +146,7 @@ def test_get_oauth2_token_for_user():
         assert fetched_token == None
 
 
-def test_get_oauth2_token_by_provider():
+def test_get_oauth2_token_by_provider(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
         provider_id = uuid.uuid4().hex
@@ -168,7 +169,7 @@ def test_get_oauth2_token_by_provider():
         assert fetched_token == None
 
 
-def test_delete_oauth2_token():
+def test_delete_oauth2_token(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
@@ -189,7 +190,7 @@ def test_delete_oauth2_token():
         assert fetched_token == None
 
 
-def test_delete_oauth2_token_by_user():
+def test_delete_oauth2_token_by_user(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
@@ -210,7 +211,7 @@ def test_delete_oauth2_token_by_user():
         assert fetched_token == None
 
 
-def test_update_oauth2_token():
+def test_update_oauth2_token(storage: AuthStorage):
     with orm_session() as session:
         user_id = uuid.uuid4()
 
