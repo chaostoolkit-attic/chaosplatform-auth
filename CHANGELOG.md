@@ -2,7 +2,15 @@
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.2.0...HEAD
+
+## [0.2.0][] - 2018-10-11
+
+[0.2.0]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.1.0...0.2.0
+
+### Changed
+
+-   Various cleanups
 
 ## [0.1.0][] - 2018-10-01
 
