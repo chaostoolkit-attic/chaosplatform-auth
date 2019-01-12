@@ -2,7 +2,15 @@
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.2.1...HEAD
+[Unreleased]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.2.2...HEAD
+
+## [0.2.2][] - 2018-01-12
+
+[0.1.1]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.2.1...0.2.2
+
+### Changed
+
+-  Pin only a minimum version of each dependency for composability
 
 ## [0.2.1][] - 2019-11-01
 
