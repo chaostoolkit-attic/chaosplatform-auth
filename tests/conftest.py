@@ -31,12 +31,12 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 
 cur_dir = os.path.abspath(os.path.dirname(__file__))
 fixtures_dir = os.path.join(cur_dir, "fixtures")
-env_path = os.path.join(fixtures_dir, '.env')
+config_path = os.path.join(fixtures_dir, 'config.toml')
 
 
 @pytest.fixture
 def config():
-    return load_settings(env_path)
+    return load_settings(config_path)
 
 
 @pytest.fixture

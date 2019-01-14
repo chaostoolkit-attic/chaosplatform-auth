@@ -2,9 +2,17 @@
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.2.2...HEAD
+[Unreleased]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.3.0...HEAD
 
-## [0.2.2][] - 2018-01-12
+## [0.3.0][] - 2019-01-14
+
+[0.3.0]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.2.2...0.3.0
+
+### Changed
+
+-  Moved from dotenv to toml for greater flexibility and readability
+
+## [0.2.2][] - 2019-01-12
 
 [0.2.2]: https://github.com/chaostoolkit/chaosplatform-auth/compare/0.2.1...0.2.2
 

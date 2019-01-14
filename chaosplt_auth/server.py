@@ -70,7 +70,7 @@ def initialize_all(config: Dict[str, Any], web_app: Flask = None,
         log_handler=access_log_handler)
 
     if not grpc_server:
-        srv_addr = config.get("GRPC_LISTEN_ADDR")
+        srv_addr = config.get("grpc", {}).get("address")
         if srv_addr:
             grpc_server = create_grpc_server(srv_addr)
             start_grpc_server(grpc_server)
