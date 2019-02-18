@@ -6,7 +6,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from flask_login import current_user, login_required
 from marshmallow import ValidationError
 
-from chaosplt_auth.schemas import new_token_schema, token_schema
+from chaosplt_auth.schemas import new_token_schema, token_schema, tokens_schema
 
 __all__ = ["api"]
 
@@ -22,6 +22,13 @@ def validate():
     an error was triggered before.
     """
     return "", 200
+
+
+@api.route('', methods=['GET'])
+@login_required
+def list_all():
+    tokens = request.storage.access_token.get_by_user(current_user.id)
+    return tokens_schema.jsonify(tokens.values())
 
 
 @api.route('', methods=['POST'])
@@ -62,8 +69,11 @@ def new():
 @api.route('<uuid:token_id>', methods=['GET'])
 @login_required
 def get(token_id: UUID):
-    token = request.storage.access_token.get(current_user.id, token_id)
+    token = request.storage.access_token.get(token_id)
     if not token:
+        return abort(404)
+    # don't let someone get a token from someone else
+    if token.user_id != current_user.id:
         return abort(404)
     return token_schema.jsonify(token)
 

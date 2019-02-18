@@ -6,7 +6,8 @@ from marshmallow import fields, post_load
 
 from .model import AccessToken
 
-__all__ = ["new_token_schema", "token_schema", "ma", "setup_schemas"]
+__all__ = ["new_token_schema", "token_schema", "ma", "setup_schemas",
+           "tokens_schema"]
 
 ma = Marshmallow()
 
@@ -23,6 +24,10 @@ class AccessTokenSchema(ma.Schema):
     name = fields.String()
     access_token = fields.String()
     refresh_token = fields.String()
+    revoked = fields.Boolean()
+    issued_on = fields.DateTime()
+    last_used_on = fields.DateTime()
+    jti = fields.String()
     url = ma.AbsoluteURLFor('token.get', token_id='<id>')
     links = ma.Hyperlinks({
         'self': ma.URLFor('token.get', token_id='<id>'),
@@ -40,4 +45,5 @@ class NewAccessTokenSchema(ma.Schema):
 
 
 token_schema = AccessTokenSchema()
+tokens_schema = AccessTokenSchema(many=True)
 new_token_schema = NewAccessTokenSchema()

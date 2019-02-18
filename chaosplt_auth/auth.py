@@ -35,6 +35,7 @@ def setup_login(app: Flask, from_session: bool = False,
     if from_session:
         @login_manager.user_loader
         def load_user_from_session(user_id: Union[UUID, str]):
+            print("############## " + str(user_id))
             return request.services.account.registration.get(user_id)
 
     if from_jwt:

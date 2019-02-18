@@ -3,7 +3,7 @@ import logging
 from typing import Any, Dict, NoReturn, Union
 from uuid import UUID
 
-from flask import Blueprint
+from flask import Blueprint, redirect, url_for
 from flask_caching import Cache
 from flask_dance.consumer import oauth_authorized, oauth_error
 from flask_dance.consumer.backend import BaseBackend
@@ -116,6 +116,7 @@ def setup_oauth_provider(blueprint: Blueprint, services, storage: AuthStorage,
         if oauth:
             user = blueprint.backend.get_account(oauth.user_id)
             user_id = oauth.user_id
+            logger.info("Account connected {}".format(user_id))
         else:
             logger.info("Creating user's account")
             user = blueprint.backend.create_account(username, name, email)

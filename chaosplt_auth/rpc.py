@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import Any, Dict, NoReturn, Union
+from typing import Any, Dict, List, NoReturn, Union
 from uuid import UUID
 
 from flask.json import JSONEncoder
@@ -73,9 +73,13 @@ class AuthRPC(GRPCAuthService):
         self.storage = storage
         self.jwt = NoAppJWTManager(config.get("jwt"))
 
-    def create_access_token(self, user_id: str, name: str) -> AccessToken:
-        access_token = self.jwt._create_access_token(str(user_id))
-        refresh_token = self.jwt._create_refresh_token(str(user_id))
+    def create_access_token(self, user_id: str, name: str,
+                            access_token: str = None,
+                            refresh_token: str = None) -> AccessToken:
+        if not access_token:
+            access_token = self.jwt._create_access_token(str(user_id))
+        if not refresh_token:
+            refresh_token = self.jwt._create_refresh_token(str(user_id))
 
         token = self.storage.access_token.create(
              name, user_id, access_token, refresh_token)
@@ -84,8 +88,81 @@ class AuthRPC(GRPCAuthService):
             user_id=str(token.user_id),
             name=token.name,
             access_token=token.access_token,
-            refresh_token=token.refresh_token
+            refresh_token=token.refresh_token,
+            revoked=token.revoked,
+            issued_on=token.issed_on,
+            last_used_on=token.last_used_on,
+            jti=token.jti
         )
 
     def delete_access_token(self, user_id: str, token_id: str) -> NoReturn:
         self.storage.access_token.delete(user_id, token_id)
+
+    def revoke_access_token(self, user_id: str, token_id: str) -> NoReturn:
+        self.storage.access_token.revoke(user_id, token_id)
+
+    def get(self, token_id: str) -> AccessToken:
+        token = self.storage.access_token.get(token_id)
+        if not token:
+            return None
+        return AccessToken(
+            id=str(token.id),
+            user_id=str(token.user_id),
+            name=token.name,
+            access_token=token.access_token,
+            refresh_token=token.refresh_token,
+            revoked=token.revoked,
+            issued_on=token.issed_on,
+            last_used_on=token.last_used_on,
+            jti=token.jti
+        )
+
+    def get_by_name(self, user_id: str, name: str) -> AccessToken:
+        token = self.storage.access_token.get_by_name(user_id, name)
+        if not token:
+            return None
+        return AccessToken(
+            id=str(token.id),
+            user_id=str(token.user_id),
+            name=token.name,
+            access_token=token.access_token,
+            refresh_token=token.refresh_token,
+            revoked=token.revoked,
+            issued_on=token.issed_on,
+            last_used_on=token.last_used_on,
+            jti=token.jti
+        )
+
+    def get_by_jti(self, user_id: str, jti: str) -> AccessToken:
+        token = self.storage.access_token.get_by_jti(user_id, jti)
+        if not token:
+            return None
+        return AccessToken(
+            id=str(token.id),
+            user_id=str(token.user_id),
+            name=token.name,
+            access_token=token.access_token,
+            refresh_token=token.refresh_token,
+            revoked=token.revoked,
+            issued_on=token.issed_on,
+            last_used_on=token.last_used_on,
+            jti=token.jti
+        )
+
+    def get_by_user(self, user_id: str) -> List[AccessToken]:
+        tokens = self.storage.access_token.get_by_user(user_id)
+        result = []
+
+        for token in tokens.values():
+            result.append(AccessToken(
+                id=str(token.id),
+                user_id=str(token.user_id),
+                name=token.name,
+                access_token=token.access_token,
+                refresh_token=token.refresh_token,
+                revoked=token.revoked,
+                issued_on=token.issed_on,
+                last_used_on=token.last_used_on,
+                jti=token.jti
+            ))
+        return result

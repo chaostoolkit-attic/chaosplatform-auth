@@ -25,6 +25,7 @@ class AccessToken(Base):  # type: ignore
         UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
     name = Column(String(128), nullable=False)
     user_id = Column(UUIDType(binary=False), nullable=False)
+    jti = Column(String(), unique=True, nullable=False)
     revoked = Column(Boolean(name='revoked'), nullable=False, default=False)
     issued_on = Column(DateTime(), nullable=False, server_default=func.now())
     last_used_on = Column(DateTime(), nullable=True)
@@ -33,12 +34,13 @@ class AccessToken(Base):  # type: ignore
 
     @staticmethod
     def save(name: str, user_id: Union[UUID, str], access_token: str,
-             refresh_token: str, session: Session) -> 'AccessToken':
+             refresh_token: str, jti: str, session: Session) -> 'AccessToken':
         token = AccessToken(
             name=name,
             user_id=user_id,
             access_token=access_token,
-            refresh_token=refresh_token)
+            refresh_token=refresh_token,
+            jti=jti)
 
         session.add(token)
         return token
@@ -54,18 +56,39 @@ class AccessToken(Base):  # type: ignore
             session.delete(token)
 
     @staticmethod
+    def revoke(user_id: Union[UUID, str],
+               token_id: Union[UUID, str], session: Session) -> NoReturn:
+        token = session.query(AccessToken).\
+            filter_by(user_id=user_id).\
+            filter_by(id=token_id).first()
+
+        if token:
+            token.revoked = True
+
+    @staticmethod
     def load_by_user(user_id: Union[UUID, str],
                      session: Session) -> Dict[str, 'AccessToken']:
         return session.query(AccessToken).\
             filter_by(user_id=user_id).all()
 
     @staticmethod
-    def load(user_id: Union[UUID, str], token_id: Union[UUID, str],
-             session: Session) -> 'AccessToken':
+    def load_by_name(user_id: Union[UUID, str], name: str,
+                     session: Session) -> 'AccessToken':
         return session.query(AccessToken).\
             filter_by(user_id=user_id).\
-            filter_by(id=token_id).\
-            filter_by(revoked=False).first()
+            filter_by(name=name).first()
+
+    @staticmethod
+    def load_by_jti(user_id: Union[UUID, str], jti: str,
+                     session: Session) -> 'AccessToken':
+        return session.query(AccessToken).\
+            filter_by(user_id=user_id).\
+            filter_by(jti=jti).first()
+
+    @staticmethod
+    def load(token_id: Union[UUID, str], session: Session) -> 'AccessToken':
+        return session.query(AccessToken).\
+            filter_by(id=token_id).first()
 
 
 class OAuthToken(Base, OAuthConsumerMixin):

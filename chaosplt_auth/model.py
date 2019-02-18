@@ -12,6 +12,10 @@ class AccessToken:
     user_id: UUID = attr.ib()
     access_token: str = attr.ib()
     refresh_token: str = attr.ib()
+    revoked: bool = attr.ib()
+    issued_on: str = attr.ib()
+    last_used_on: str = attr.ib()
+    jti: str = attr.ib()
 
 
 @attr.s

@@ -12,10 +12,9 @@ __all__ = ["BaseAuthStorage", "BaseAccessTokenService",
 
 class BaseAccessTokenService(ABC):
     @abstractmethod
-    def get(self, user_id: Union[UUID, str],
-            token_id: Union[UUID, str]) -> AccessToken:
+    def get(self, token_id: Union[UUID, str]) -> AccessToken:
         """
-        Fetch a token for the given user
+        Fetch a token
         """
         raise NotImplementedError()
 
@@ -29,9 +28,33 @@ class BaseAccessTokenService(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def create(self, name: str, user_id: Union[UUID, str]) -> AccessToken:
+    def get_by_name(self, user_id: Union[UUID, str], name: str) -> AccessToken:
+        """
+        Fetch a token by name from the given user.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_by_jti(self, user_id: Union[UUID, str], jti: str) -> AccessToken:
+        """
+        Fetch a token by its jti from the given user.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def create(self, name: str, user_id: Union[UUID, str],
+               access_token: str = None, refresh_token: str = None,
+               jti: str = None) -> AccessToken:
         """
         Create a new token with the given name for the user
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def revoke(self, user_id: Union[UUID, str],
+               token_id: Union[UUID, str]) -> NoReturn:
+        """
+        Revoke a token from the given user
         """
         raise NotImplementedError()
 
